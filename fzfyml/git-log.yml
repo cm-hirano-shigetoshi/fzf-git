@@ -1,0 +1,14 @@
+base_task:
+    input: git log --graph --decorate --oneline --abbrev=40
+    transform: git log --graph --decorate --oneline --color=always
+    opts:
+        - ansi
+        - multi
+        - no-sort
+        - reverse
+        - preview-window='up:70%:wrap:hidden'
+    preview: git log --graph --decorate --oneline | bash {tooldir}/preview/show_arround_line.sh - {index} $LINES
+    output:
+        enter:
+          - pipe: grep -o '[0-9a-z]\{40\}' | tr '\n' ' '
+
