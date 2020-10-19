@@ -1,3 +1,5 @@
+TOOLDIR=${TOOLDIR-${0:A:h}}
+
 function __get_branch() {
   local cur_line
   cur_line=$(git branch | grep '^\s*\*' | strutil shift)
@@ -20,7 +22,7 @@ alias gf='git-fetch'
 if which fzf >/dev/null 2>&1; then
     function fzf-git-add() {
         local selected
-        selected=($($dotfiles/bin/unbuffer git status -s | fzf --no-sort --reverse --ansi --preview="$dotfiles/zsh/lib/preview-git.sh {2..}" --preview-window=up:70% -m | strutil island -- -1))
+        selected=($(unbuffer git status -s | fzf --no-sort --reverse --ansi --preview="$TOOLDIR/fzfyml/preview-git.sh {2..}" --preview-window=up:70% -m | strutil island -- -1))
         if grep '\S' <<< "$selected" >/dev/null 2>&1; then
             sed -e 's/\s\+/\n/g' -e 's/^/add /' <<< "$selected"
             git add $selected
@@ -59,7 +61,7 @@ if which fzf >/dev/null 2>&1; then
 
     function fzf-git-log-widget() {
         local out
-        out=$(fzfyml run $dotfiles/zsh/fzfyml/git-log.yml)
+        out=$(fzfyml run $TOOLDIR/fzfyml/git-log.yml)
         if [[ -n "$out" ]]; then
             BUFFER+="$out"
             CURSOR+=${#out}
@@ -71,7 +73,7 @@ if which fzf >/dev/null 2>&1; then
 
     function fzf-git-status-widget() {
         local out
-        out=$(fzfyml run $dotfiles/zsh/fzfyml/git-status.yml)
+        out=$(fzfyml run $TOOLDIR/fzfyml/git-status.yml)
         if [[ -n "$out" ]]; then
             BUFFER+="$out"
             CURSOR=${#BUFFER}

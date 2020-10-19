@@ -1,0 +1,15 @@
+base_task:
+    input: unbuffer git status -sb
+    opts:
+        - ansi
+        - multi
+        - no-sort
+        - reverse
+        - nth=2..
+        - preview-window=up:60%
+    preview: bash {ymldir}/preview-git.sh {}
+    bind:
+        alt-v: execute-silent(tovim {-1})
+    output:
+        enter:
+            - pipe: grep -v '^##' | cut -c 4- | sed 's/^.\+ -> //' | tr '\n' ' '
