@@ -61,7 +61,7 @@ if which fzf >/dev/null 2>&1; then
 
     function fzf-git-log-widget() {
         local out
-        out=$(fzfyml run $TOOLDIR/fzfyml/git-log.yml)
+        out=$(fzfyml3 run $TOOLDIR/fzfyml/git-log.yml)
         if [[ -n "$out" ]]; then
             BUFFER+="$out"
             CURSOR+=${#out}
@@ -73,7 +73,7 @@ if which fzf >/dev/null 2>&1; then
 
     function fzf-git-status-widget() {
         local out
-        out=$(fzfyml run $TOOLDIR/fzfyml/git-status.yml)
+        out=$(fzfyml3 run $TOOLDIR/fzfyml/git-status.yml)
         if [[ -n "$out" ]]; then
             BUFFER+="$out"
             CURSOR=${#BUFFER}
