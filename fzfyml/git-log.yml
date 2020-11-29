@@ -1,12 +1,13 @@
 base_task:
-    source: git log --graph --decorate --oneline --abbrev=40
+    source: git log --graph --decorate --oneline --abbrev=40 | sed 's/^.*\(\w\{40\}\)/\1/'
     source_transform: git log --graph --decorate --oneline --color=always
     options:
         - ansi
         - multi
         - no-sort
         - reverse
-        - preview-window='up:0%:wrap'
+        - preview-window='up:50%:wrap'
+        - preview='git diff --color=always {+1}'
     post_operations:
         enter:
           - pipe: grep -o '[0-9a-z]\{40\}'
