@@ -12,4 +12,10 @@ base_task:
         enter:
           - pipe: grep -o '[0-9a-z]\{40\}'
           - join
-
+task_switch:
+    alt-p:
+        options:
+            - preview='git log --graph --decorate --oneline | grep -C 5 --color=always -- ".*$(echo {1} | cut -c -7).*"'
+    alt-d:
+        options:
+            - preview='git diff --color=always {+1}'
