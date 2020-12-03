@@ -61,7 +61,7 @@ if which fzf >/dev/null 2>&1; then
 
     function fzf-git-log-widget() {
         local out
-        out=$(fzfyml run $TOOLDIR/fzfyml/git-log.yml)
+        out=$(fzfyml3 run $TOOLDIR/fzfyml/git-log.yml)
         if [[ -n "$out" ]]; then
             BUFFER+="$out"
             CURSOR+=${#out}
@@ -71,9 +71,21 @@ if which fzf >/dev/null 2>&1; then
     zle -N fzf-git-log-widget
     bindkey "^g^l" fzf-git-log-widget
 
+    function fzf-git-reflog-widget() {
+        local out
+        out=$(fzfyml3 run $TOOLDIR/fzfyml/git-reflog.yml)
+        if [[ -n "$out" ]]; then
+            BUFFER+="$out"
+            CURSOR+=${#out}
+            zle redisplay
+        fi
+    }
+    zle -N fzf-git-reflog-widget
+    bindkey "^g^r" fzf-git-reflog-widget
+
     function fzf-git-status-widget() {
         local out
-        out=$(fzfyml run $TOOLDIR/fzfyml/git-status.yml)
+        out=$(fzfyml3 run $TOOLDIR/fzfyml/git-status.yml)
         if [[ -n "$out" ]]; then
             BUFFER+="$out"
             CURSOR=${#BUFFER}

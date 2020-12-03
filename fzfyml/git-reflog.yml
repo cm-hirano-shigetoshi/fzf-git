@@ -1,0 +1,15 @@
+base_task:
+    source: git reflog --abbrev=40
+    source_transform: git reflog --color=always
+    options:
+        - ansi
+        - multi
+        - no-sort
+        - reverse
+        - preview-window='up:50%:wrap'
+        - preview='git diff --color=always {+1}'
+    post_operations:
+        enter:
+          - pipe: grep -o '[0-9a-z]\{40\}'
+          - join
+

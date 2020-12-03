@@ -1,14 +1,21 @@
 base_task:
-    input: git log --graph --decorate --oneline --abbrev=40
-    transform: git log --graph --decorate --oneline --color=always
-    opts:
+    source: git log --graph --decorate --oneline --abbrev=40 | sed 's/^.*\(\w\{40\}\)/\1/'
+    source_transform: git log --graph --decorate --oneline --color=always
+    options:
         - ansi
         - multi
         - no-sort
         - reverse
-        - preview-window='up:70%:wrap:hidden'
-    preview: git log --graph --decorate --oneline | bash {tooldir}/preview/show_arround_line.sh - {index} $LINES
-    output:
+        - preview-window='up:50%:wrap'
+        - preview='git diff --color=always {+1}'
+    post_operations:
         enter:
-          - pipe: grep -o '[0-9a-z]\{40\}' | tr '\n' ' '
-
+          - pipe: grep -o '[0-9a-z]\{40\}'
+          - join
+task_switch:
+    alt-p:
+        options:
+            - preview='git log --graph --decorate --oneline | grep -C 5 --color=always -- ".*$(echo {1} | cut -c -7).*"'
+    alt-d:
+        options:
+            - preview='git diff --color=always {+1}'
