@@ -10,7 +10,7 @@ base_task:
         - preview='git diff --color=always {+1}'
     post_operations:
         enter:
-          - pipe: grep -o '[0-9a-z]\{40\}'
+          - pipe: cut -c -40
           - join
 task_switch:
     alt-p:
