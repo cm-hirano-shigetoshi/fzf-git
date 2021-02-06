@@ -4,8 +4,8 @@ function fzf-git-branch() {
     out=$(fzfyml3 run $FZF_GIT_TOOLDIR/fzfyml/git-branch.yml "$*")
     if [[ -n "$out" ]]; then
         if echo "$out" | grep -q '^remotes/'; then
-            branch=$(echo "$out" | sed 's%^remotes/origin/%%')
-            git checkout -b $branch origin/$branch
+            remote_branch="${out#*/}"
+            git checkout -b "${remote_branch#*/}" "$remote_branch"
         else
             git checkout "$out"
         fi
