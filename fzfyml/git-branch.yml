@@ -1,0 +1,8 @@
+base_task:
+    source: git branch -a --color=always | sed 's/^\*//' | tr -d ' '
+    options:
+        - ansi
+        - reverse
+        - select-1
+        - query='{{arg1}} '
+        - preview-window='hidden'
