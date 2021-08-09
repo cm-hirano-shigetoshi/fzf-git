@@ -15,7 +15,7 @@ alias gb='fzf-git-branch'
 
 function fzf-git-log-widget() {
     local out
-    out=$(fzfyml3 run $FZF_GIT_TOOLDIR/fzfyml/git-log.yml)
+    out=$(fzfyml4 run $FZF_GIT_TOOLDIR/fzfyml/git-log.yml)
     if [[ -n "$out" ]]; then
         BUFFER+="$out"
         CURSOR+=${#out}

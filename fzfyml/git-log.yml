@@ -1,13 +1,14 @@
 base_task:
     source: git log --graph --decorate --oneline --abbrev=40 | sed 's/^.*\(\w\{40\}\)/\1/'
     source_transform: git log --graph --decorate --oneline --color=always
+    preview:
+      command: git diff --color=always {+2}
+      window: up:50%:wrap
     options:
         - ansi
         - multi
         - no-sort
         - reverse
-        - preview-window='up:50%:wrap'
-        - preview='git diff --color=always {+1}'
     post_operations:
         enter:
           - pipe: cut -c -40
@@ -18,4 +19,4 @@ task_switch:
             - preview='git log --graph --decorate --oneline | grep -C 5 --color=always -- ".*$(echo {1} | cut -c -7).*"'
     alt-d:
         options:
-            - preview='git diff --color=always {+1}'
+            - preview='git diff --color=always {+2}'
