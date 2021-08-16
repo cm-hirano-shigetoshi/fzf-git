@@ -1,0 +1,11 @@
+#!/usr/bin/env - python3
+import sys
+import subprocess
+from subprocess import PIPE
+
+queries = [] if len(sys.argv) == 1 else sys.argv[1].split()
+if len(queries) == 0:
+    subprocess.run('env - cat', shell=True)
+else:
+    cmd = "env - cat | env - grep --color=always -i -A 10 -B 3 '{}'".format('.*'.join(queries))
+    subprocess.run(cmd, shell=True)

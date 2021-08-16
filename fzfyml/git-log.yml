@@ -1,22 +1,38 @@
 base_task:
-    source: git log --graph --decorate --oneline --abbrev=40 | sed 's/^.*\(\w\{40\}\)/\1/'
-    source_transform: git log --graph --decorate --oneline --color=always
+    variables:
+      source_cmd: git log --graph --decorate --oneline --color=always
+    source: '{{source_cmd}}'
+    binds:
+      change:
+        - reload[{{source_cmd}} | {{yml_dir}}/grep {q}]
+      alt-enter:
+        - unbind[change]
+        - 'change-prompt[Fzf: ]'
+        - enable-search
+        - clear-query
+      tab:
+        - unbind[change]
+        - 'change-prompt[Fzf: ]'
+        - enable-search
+        - clear-query
+        - toggle+down
+      shift-tab:
+        - unbind[change]
+        - 'change-prompt[Fzf: ]'
+        - enable-search
+        - clear-query
+        - toggle+up
     preview:
-      command: git diff --color=always {+2}
+      command: git diff --color=always $({{yml_dir}}/extract-hash.py {+}) 2>/dev/null && echo "NO DIFFERENCE"
       window: up:50%:wrap
     options:
         - ansi
         - multi
         - no-sort
         - reverse
+        - disabled
+        - 'prompt=Grep: '
     post_operations:
         enter:
-          - pipe: cut -c -40
+          - pipe: sed 's/\(\w\+\).*$/\1/' | grep -o '\w\+'
           - join
-task_switch:
-    alt-p:
-        options:
-            - preview='git log --graph --decorate --oneline | grep -C 5 --color=always -- ".*$(echo {1} | cut -c -7).*"'
-    alt-d:
-        options:
-            - preview='git diff --color=always {+2}'
