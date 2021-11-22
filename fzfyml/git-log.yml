@@ -1,7 +1,7 @@
 base_task:
     source: git log --graph --decorate --oneline --color=always
     preview:
-      command: git diff --color=always $({{yml_dir}}/extract-hash.py {+}) 2>/dev/null && echo "NO DIFFERENCE"
+      command: '{{yml_dir}}/preview-git-log.sh "{{yml_dir}}" {+}'
       window: up:50%:wrap
     options:
         - ansi
