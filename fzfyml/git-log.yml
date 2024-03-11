@@ -9,6 +9,10 @@ base_task:
         - multi
         - no-sort
         - reverse
+    binds:
+      ctrl-u:
+        - track
+        - clear-query
     post_operations:
         enter:
           - pipe: cut -c -40
