@@ -13,6 +13,10 @@ base_task:
       ctrl-u:
         - track
         - clear-query
+      ctrl-p:
+        - prev-selected
+      ctrl-n:
+        - next-selected
     post_operations:
         enter:
           - pipe: cut -c -40
