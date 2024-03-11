@@ -9,6 +9,7 @@ base_task:
         - multi
         - no-sort
         - reverse
+        - scroll-off=5
     binds:
       ctrl-u:
         - track
